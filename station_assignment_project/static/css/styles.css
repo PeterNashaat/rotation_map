@@ -1,0 +1,62 @@
+/* Apply a background color to the header */
+.header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 0;
+}
+
+/* Style the main content area */
+.container {
+    margin-top: 20px;
+}
+
+/* Add some spacing between elements */
+.mt-4 {
+    margin-top: 1.5rem !important;
+}
+
+/* Style the table */
+.table {
+    font-size: 20px;
+    text-align: center;
+    background-color: #f0f0f0;
+    width: 100%;
+}
+
+/* Apply a light gray background to table header cells */
+.table thead th {
+    background-color: #f8f9fa;
+    border-color: #e9ecef;
+    color: #333;
+}
+
+/* Add some padding to the table cells */
+.table td, .table th {
+    padding: 8px 12px;
+    border-color: #e9ecef;
+}
+
+/* Add hover effect to table rows */
+.table tbody tr:hover {
+    background-color: #e2e2e2;
+}
+
+/* Apply different background colors to alternating rows */
+.table tbody tr:nth-child(even) {
+    background-color: #f5f5f5;
+}
+
+/* Apply background colors to specific columns based on station */
+{% for i in 1|range:10 %}
+.table tbody tr td:nth-child({{ i + 1 }}) {
+    background-color: #{{ colors[i] }};
+}
+{% endfor %}
+
+/* Apply background colors to specific columns based on station */
+{% for i, color in colors.items %}
+.table tbody tr:nth-child({{ i + 2 }}) td {
+    background-color: #{{ color }};
+}
+{% endfor %}
+

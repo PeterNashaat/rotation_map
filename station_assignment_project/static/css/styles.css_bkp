@@ -1,0 +1,106 @@
+/* Apply a background color to the header */
+.header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 0;
+}
+
+/* Style the main content area */
+.container {
+    margin-top: 20px;
+}
+
+/* Add some spacing between elements */
+.mt-4 {
+    margin-top: 1.5rem !important;
+}
+
+/* Custom color palette */
+.bg-color-1 {
+    background-color: #03045e;
+    color: white;
+}
+
+.bg-color-2 {
+    background-color: #023e8a;
+    color: white;
+}
+
+.bg-color-3 {
+    background-color: #0077b6;
+    color: white;
+}
+
+.bg-color-4 {
+    background-color: #0096c7;
+    color: white;
+}
+
+.bg-color-5 {
+    background-color: #00b4d8;
+    color: white;
+}
+
+.bg-color-6 {
+    background-color: #48cae4;
+    color: white;
+}
+
+.bg-color-7 {
+    background-color: #90e0ef;
+    color: white;
+}
+
+.bg-color-8 {
+    background-color: #ade8f4;
+    color: white;
+}
+
+.bg-color-9 {
+    background-color: #caf0f8;
+    color: #333; /* Dark color for better visibility */
+}
+
+/* Style the table */
+.table {
+    font-size: 14px;
+    text-align: center; /* Center-align content in cells */
+    background-color: #f0f0f0; /* Light gray background for entire table */
+}
+
+/* Apply a light gray background to table header cells */
+.table thead th {
+    background-color: #f8f9fa;
+    border-color: #e9ecef;
+    color: #333; /* Darken the text color for better visibility */
+}
+
+/* Add some padding to the table cells */
+.table td, .table th {
+    padding: 8px 12px;
+    border-color: #e9ecef;
+}
+
+/* Add hover effect to table rows */
+.table tbody tr:hover {
+    background-color: #e2e2e2; /* Slightly darker gray on hover */
+}
+
+/* Apply different background colors to alternating rows */
+.table tbody tr:nth-child(even) {
+    background-color: #f5f5f5; /* Lighter gray for even rows */
+}
+
+/* Apply background colors to specific columns based on station */
+.table tbody tr td {
+    color: white; /* White text on colored background */
+}
+
+/* Your existing CSS styles... */
+
+/* Apply background colors to specific columns based on station */
+{% for station_idx in num_stations|make_list %}
+.table tbody tr td:nth-child({{ station_idx }}) {
+    background-color: var(--bg-color-{{ station_idx }});
+}
+{% endfor %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1>Generated Rotation Map Table</h1>
+<table border="1" class="table">
+    {% for item in assignments_with_colors %}
+        <tr style="background-color: #{{ item.color }}">
+            {% for cell in item.assignments %}
+                <td>{{ cell }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

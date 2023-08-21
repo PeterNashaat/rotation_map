@@ -22,4 +22,6 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('generate-table/', views.generate_table, name='generate_table'),
+    path('', views.generate_table_image, name='generate_table_image'),
+    path('generate-table-image/', views.generate_table_image, name='generate_table_image'),
 ]

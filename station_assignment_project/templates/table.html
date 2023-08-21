@@ -1,18 +1,22 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Generated Table</title>
+    <title>Be Perfect</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <h1>Generated Table</h1>
-    <table border="1">
-        {% for row in assignments %}
-            <tr>
-                {% for cell in row %}
+    <h1>Be Perfect Rotation Map</h1>
+    <table border="1" class="table">
+        {% for item in assignments_with_colors %}
+            <tr style="background-color: #{{ item.color }}">
+                {% for cell in item.assignments %}
                     <td>{{ cell }}</td>
                 {% endfor %}
             </tr>
         {% endfor %}
     </table>
+    <a href="{% url 'generate_table' %}" class="btn btn-primary mt-3">Generate Another Table</a>
+
 </body>
 </html>

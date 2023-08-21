@@ -1,14 +1,54 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Generate Table</title>
-</head>
-<body>
-    <h1>Generate Table</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Generate Table</button>
-    </form>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <h2>Rotation Map Generator</h2>
+  <form method="post" action="{% url 'generate_table' %}">
+    {% csrf_token %}
+
+    <div class="form-group row mb-3">
+      <label for="{{ form.num_stations.id_for_label }}" class="col-md-4 col-form-label">Number of Stations:</label>
+      <div class="col-md-8">
+        {{ form.num_stations }}
+      </div>
+    </div>
+
+    <div class="form-group row mb-3">
+      <label for="{{ form.num_teams.id_for_label }}" class="col-md-4 col-form-label">Number of Teams:</label>
+      <div class="col-md-8">
+        {{ form.num_teams }}
+      </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label for="{{ form.station_names.id_for_label }}" class="col-md-4 col-form-label">Station Names (comma-separated):</label>
+        <div class="col-md-8">
+          <textarea class="form-control" id="stationNames" name="{{ form.station_names.name }}" rows="1">{{ form.station_names.value }}</textarea>
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <div class="col-md-4"></div>
+        <div class="col-md-8 d-flex align-items-center">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="useDefaultStations" onclick="setDefaultStationNames()">
+            <label class="form-check-label" for="useDefaultStations">Use Default Station Names</label>
+          </div>
+        </div>
+      </div>
+
+    <div class="form-group text-center">
+      <button type="submit" class="btn btn-primary mt-2">Generate Rotation Map</button>
+      <button type="submit" formaction="{% url 'generate_table_image' %}" class="btn btn-primary mt-2">Download Rotation Map</button>
+    </div>
+  </form>
+</div>
+<script>
+function setDefaultStationNames() {
+    if (document.getElementById("useDefaultStations").checked) {
+        document.getElementById("stationNames").value = "crafts,counseling,spiritual,development,games,physical";
+    } else {
+        document.getElementById("stationNames").value = "";
+    }
+}
+</script>
+
+{% endblock %}
