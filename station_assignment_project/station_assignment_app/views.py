@@ -2,9 +2,10 @@ import random
 from django.shortcuts import render
 from django.http import HttpResponse
 from io import BytesIO
+from PIL import Image
 import matplotlib.pyplot as plt
 from .forms import StationAssignmentForm
-from PIL import Image
+import numpy as np
 
 def generate_table(request):
     if request.method == 'POST':
@@ -30,7 +31,10 @@ def generate_table(request):
             assignments.insert(0, first_row)
 
             # Define color options
-            color_options = ['023e8a', '0077b6', '0096c7', '00b4d8', '48cae4', '90e0ef', 'ade8f4', 'caf0f8']
+            color_options = ['c9184a', 'b8c0ff', 'ccd5ae', 'ffb4a2', 'f8ad9d', '90e0ef', 'ade8f4', 'caf0f8', 'd0fffa', '678c95', '46d0d0', 'f9f2e0', '7da97a', 'd5bdaf', '84a59d', 'f28482', '4cc9f0', 'ffdab9', '57cc99', 'fb6f92']
+
+            # Shuffle the color options to randomize them
+            random.shuffle(color_options)
 
             # Assign random colors to each row
             assignments_with_colors = []
@@ -69,25 +73,38 @@ def generate_table_image(request):
             assignments.insert(0, first_row)
 
             # Define color options
-            color_options = ['023e8a', '0077b6', '0096c7', '00b4d8', '48cae4', '90e0ef', 'ade8f4', 'caf0f8']
+            color_options = ['c9184a', 'b8c0ff', 'ccd5ae', 'ffb4a2', 'f8ad9d', '90e0ef', 'ade8f4', 'caf0f8', 'd0fffa', '678c95', '46d0d0', 'f9f2e0', '7da97a', 'd5bdaf', '84a59d', 'f28482', '4cc9f0', 'ffdab9', '57cc99', 'fb6f92']
 
-            # Assign random colors to each row
+            # Shuffle the color options to randomize them
+            random.shuffle(color_options)
+
+            # Assign colors to each row
             assignments_with_colors = []
             for row in assignments:
-                color = random.choice(color_options)
+                color = color_options.pop(0)  # Get the first color and remove it from the list
                 color_row = ['#{}'.format(color)] * len(row)
                 assignments_with_colors.append({'assignments': row, 'color_row': color_row})
 
-            # Generate an image with larger dimensions
-            plt.figure(figsize=(12, 8))
+            # Calculate the size of the figure to fit the table
+            num_rows = len(assignments_with_colors)
+            num_columns = len(assignments_with_colors[0]['assignments'])
+            table_width = 7  # Adjust this value as needed to control the table width
+            table_height = 1 * num_rows / num_columns  # Adjust this value to control the table height
+
+            # Generate an image with the calculated dimensions
+            plt.figure(figsize=(table_width, table_height))
             plt.axis('off')
 
             # Create a list of colors for each row
             cell_colors = [row['color_row'] for row in assignments_with_colors]
 
-            plt.table(cellText=[row['assignments'] for row in assignments_with_colors], cellLoc='center', colLabels=None, cellColours=cell_colors, loc='center')
+            # Increase font size for the table
+            table = plt.table(cellText=[row['assignments'] for row in assignments_with_colors], cellLoc='center', colLabels=None, cellColours=cell_colors, loc='center')
+            table.auto_set_font_size(False)
+            table.set_fontsize(7)  # Adjust the font size as needed
+
             buffer = BytesIO()
-            plt.savefig(buffer, format="jpg", bbox_inches='tight', dpi=300)  # Save as JPEG
+            plt.savefig(buffer, format="jpg", bbox_inches='tight', dpi=1000)  # Save as JPEG
             plt.close()
             buffer.seek(0)
 
